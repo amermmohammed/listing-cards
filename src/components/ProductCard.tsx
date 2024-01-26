@@ -1,3 +1,5 @@
+import Image from "./Image.tsx";
+
 interface IProps {
 
 }
@@ -5,7 +7,7 @@ interface IProps {
 const ProductCard = ({}: IProps) => {
     return (
         <div className="border rounded-md p-2 flex flex-col">
-            <img  alt={"Product"} src={"https://picsum.photos/300/300"} />
+            <Image imageURL={"https://picsum.photos/300/300"} alt={"ProductName"}/>
             <h3>2022 BMW M4</h3>
             <p>$100,000</p>
             <div className="flex gap-2 my-2">
@@ -16,7 +18,7 @@ const ProductCard = ({}: IProps) => {
             </div>
             <div className="flex gap2 justify-between my-2 items-center font-bold">
                 <span className="text-2xl text-indigo-600">$100,000</span>
-                <img src={"https://picsum.photos/300/300"} alt={"Product"} className="w-10 h-10 rounded-full"/>
+                <Image imageURL={"https://picsum.photos/300/300"} alt={"ProductName"} className="w-10 h-10 rounded-full object-cover"/>
             </div>
             <div className="flex gap-2 justify-between mt-2">
                 <button className="bg-green-700 w-[50%] text-white rounded-md p-2">Edit</button>
