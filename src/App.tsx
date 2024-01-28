@@ -7,7 +7,6 @@ import Input from "./components/ui/Input.tsx";
 import { IProduct } from "./interfaces";
 import {productValidation} from "./validation";
 import ErrorMessage from "./components/ErrorMessage.tsx";
-import errorMessage from "./components/ErrorMessage.tsx";
 
 const App = () => {
     const defaultProductObj = {

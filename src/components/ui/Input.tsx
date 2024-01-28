@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from "react";
 
-interface IProps extends InputHTMLAttributes<HTMLFormElement>{
+interface IProps extends InputHTMLAttributes<HTMLInputElement>{
 
 }
 
