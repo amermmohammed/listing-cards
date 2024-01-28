@@ -7,7 +7,8 @@ import Input from "./components/ui/Input.tsx";
 import { IProduct } from "./interfaces";
 import {productValidation} from "./validation";
 import ErrorMessage from "./components/ErrorMessage.tsx";
-import CircleColor from "./components/ui/CircleColor.tsx";
+import CircleColor from "./components/ui/CircleColor.tsx"
+import {v4 as uuid} from "uuid";
 
 const App = () => {
     const defaultProductObj = {
@@ -22,6 +23,7 @@ const App = () => {
         colors: [],
     }
     /*State*/
+    const [products, setProducts] = useState<IProduct[]>(productList);
     const [product, setProduct] = useState<IProduct>(
         defaultProductObj
     );
@@ -34,7 +36,7 @@ const App = () => {
             imageURL: "",
     });
     const [tempColors, setTempColors] = useState<string[]>([]);
-    console.log(tempColors);
+
     /*Handler*/
     const closeModal = () => {
         setIsOpen(false)
@@ -81,11 +83,16 @@ const App = () => {
             setErrorMessage(errors);
             return;
         }
-        console.log("Form submitted");
+
+        setProducts((prev) => [{...product, id: uuid(), colors: tempColors}, ...prev]);
+
+        setProduct(defaultProductObj);
+        setTempColors([]);
+        closeModal();
 
     }
     /*Render*/
-    const renderProductList = productList.map((product) =>
+    const renderProductList = products.map((product) =>
         <ProductCard key={product.id}
                      product={product}
         />);
@@ -111,11 +118,12 @@ const App = () => {
 
     return (
         <main className="container">
-            <Button className="bg-indigo-700 hover:bg-indigo-800" onClick={openModal}>Add new Product</Button>
             <div
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
-                gap-4 border-2 border-amber-950 m-5 p-2 rounded-md"
+                gap-4 m-5 p-2 rounded-md"
             >
+                <Button className="bg-indigo-700 hover:bg-indigo-800 mx-auto my-3 w-auto" onClick={openModal}>Add new Product</Button>
+
                 {renderProductList}
             </div>
             <CustomModal isOpen={isOpen} closeModal={closeModal} title="Add new Product">
