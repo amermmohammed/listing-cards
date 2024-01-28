@@ -81,24 +81,12 @@ export const formInputsList: IFormInput[] = [
         id: "price",
         name: "price",
         label: "Product Price",
-        type: "number",
+        type: "text",
     },
     {
         id: "imageURL",
         name: "imageURL",
         label: "Product Image URL",
-        type: "text",
-    },
-    {
-        id: "colors",
-        name: "colors",
-        label: "Product Colors",
-        type: "text",
-    },
-    {
-        id: "category",
-        name: "category",
-        label: "Product Category",
         type: "text",
     }
 ];
