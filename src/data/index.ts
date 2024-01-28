@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { IProduct } from '../interfaces';
+import {IFormInput, IProduct} from '../interfaces';
 
 export const productList: IProduct[] = [
     {
@@ -62,4 +62,43 @@ export const productList: IProduct[] = [
             imageURL: 'https://www.foodnavigator-asia.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/foodnavigator-asia.com/article/2018/03/29/soft-drink-health-concerns-not-yet-trickled-down-into-social-media-users-mentions-of-brands/7819019-1-eng-GB/Soft-drink-health-concerns-not-yet-trickled-down-into-social-media-users-mentions-of-brands.jpg'
         },
     },
+];
+
+export const formInputsList: IFormInput[] = [
+    {
+        id: "title",
+        name: "title",
+        type: "text",
+        label: "Product Title",
+    },
+    {
+        id: "description",
+        name: "description",
+        label: "Product Description",
+        type: "text",
+    },
+    {
+        id: "price",
+        name: "price",
+        label: "Product Price",
+        type: "number",
+    },
+    {
+        id: "imageURL",
+        name: "imageURL",
+        label: "Product Image URL",
+        type: "text",
+    },
+    {
+        id: "colors",
+        name: "colors",
+        label: "Product Colors",
+        type: "text",
+    },
+    {
+        id: "category",
+        name: "category",
+        label: "Product Category",
+        type: "text",
+    }
 ];

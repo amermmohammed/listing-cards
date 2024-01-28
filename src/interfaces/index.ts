@@ -12,3 +12,10 @@ export interface IProduct {
     colors: string[];
     category: ICategories;
 }
+
+export interface IFormInput {
+    id: string;
+    name: string;
+    label: string;
+    type: string;
+}
