@@ -6,6 +6,8 @@ import Button from "./components/ui/Button.tsx";
 import Input from "./components/ui/Input.tsx";
 import { IProduct } from "./interfaces";
 import {productValidation} from "./validation";
+import ErrorMessage from "./components/ErrorMessage.tsx";
+import errorMessage from "./components/ErrorMessage.tsx";
 
 const App = () => {
     const defaultProductObj = {
@@ -24,6 +26,12 @@ const App = () => {
         defaultProductObj
     );
     const [isOpen, setIsOpen] = useState(false)
+    const [errorMessage, setErrorMessage] = useState({
+        title: "",
+        description: "",
+        price: "",
+        imageURL: "",
+    })
 
     /*Handler*/
     const closeModal = () => {
@@ -39,7 +47,11 @@ const App = () => {
         setProduct({
             ...product,
             [name]: value
-        })
+        });
+        setErrorMessage({
+            ...errorMessage,
+            [name]: ""
+        });
     }
 
     const onCancel = () => {
@@ -48,13 +60,27 @@ const App = () => {
     }
     const submitHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const {title, description, price, imageURL} = product;
         const errors = productValidation({
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            imageURL: product.imageURL,
+            title,
+            description,
+            price,
+            imageURL,
         });
-        console.log(errors);
+
+        const hasErrorMessage =
+            Object.values(errors)
+                .some(value => value === "")
+            &&
+            Object.values(errors)
+                .every(value => value === "");
+
+        if(!hasErrorMessage){
+            setErrorMessage(errors);
+            return;
+        }
+        console.log("Form submitted");
+
     }
     /*Render*/
     const renderProductList = productList.map((product) =>
@@ -64,7 +90,9 @@ const App = () => {
     const renderFormInputList = formInputsList.map((input) =>
         <div key={input.id} className="flex flex-col gap-2">
             <label htmlFor={input.id} className="mb-[1px] text-sm font-medium text-gray-700">{input.label}</label>
-            <Input type={input.type} name={input.name} id={input.name} value={product[input.name]} onChange={onChangeHandler}/>
+            <Input type={input.type} name={input.name} id={input.name} value={product[input.name]}
+                   onChange={onChangeHandler}/>
+            <ErrorMessage message={errorMessage[input.name]}/>
         </div>
     );
     return (
