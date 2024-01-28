@@ -5,6 +5,7 @@ import CustomModal from "./components/ui/Modal.tsx";
 import Button from "./components/ui/Button.tsx";
 import Input from "./components/ui/Input.tsx";
 import { IProduct } from "./interfaces";
+import {productValidation} from "./validation";
 
 const App = () => {
     const defaultProductObj = {
@@ -47,7 +48,13 @@ const App = () => {
     }
     const submitHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(product);
+        const errors = productValidation({
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            imageURL: product.imageURL,
+        });
+        console.log(errors);
     }
     /*Render*/
     const renderProductList = productList.map((product) =>
