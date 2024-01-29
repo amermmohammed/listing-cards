@@ -1,5 +1,5 @@
 import ProductCard from "./components/ProductCard.tsx";
-import {colorsList, formInputsList, productList} from "./data";
+import {categoriesList, colorsList, formInputsList, productList} from "./data";
 import {useState, ChangeEvent, FormEvent} from "react";
 import CustomModal from "./components/ui/Modal.tsx";
 import Button from "./components/ui/Button.tsx";
@@ -9,6 +9,7 @@ import {productValidation} from "./validation";
 import ErrorMessage from "./components/ErrorMessage.tsx";
 import CircleColor from "./components/ui/CircleColor.tsx"
 import {v4 as uuid} from "uuid";
+import Select from "./components/ui/Select.tsx";
 
 const App = () => {
     const defaultProductObj = {
@@ -34,9 +35,10 @@ const App = () => {
             description: "",
             price: "",
             imageURL: "",
+            colors: "",
     });
     const [tempColors, setTempColors] = useState<string[]>([]);
-
+    const [selectedCategory, setSelectedCategory] = useState(categoriesList[0]);
     /*Handler*/
     const closeModal = () => {
         setIsOpen(false)
@@ -70,6 +72,7 @@ const App = () => {
             description,
             price,
             imageURL,
+            colors: [...tempColors],
         });
 
         const hasErrorMessage =
@@ -84,7 +87,7 @@ const App = () => {
             return;
         }
 
-        setProducts((prev) => [{...product, id: uuid(), colors: tempColors}, ...prev]);
+        setProducts((prev) => [{...product, id: uuid(), colors: tempColors, category: selectedCategory}, ...prev]);
 
         setProduct(defaultProductObj);
         setTempColors([]);
@@ -107,13 +110,19 @@ const App = () => {
     );
 
     const renderProductColors = colorsList.map(color =>
-        <CircleColor key={color} color={color} onClick={() => {
-            if (tempColors.includes(color)) {
-                setTempColors((prev) => prev.filter(item=> item !== color))
-                return;
-            }
-            setTempColors((prev) => [...prev, color])
-        }}/>
+                <CircleColor key={color} color={color} onClick={() => {
+                    if (tempColors.includes(color)) {
+                        setTempColors((prev) => prev.filter(item=> item !== color))
+                        return;
+                    }
+                    setTempColors((prev) => [...prev, color])
+                    if (errorMessage.colors) {
+                        setErrorMessage({
+                            ...errorMessage,
+                            colors: ""
+                        })
+                    }
+                }}/>
     );
 
     return (
@@ -123,13 +132,13 @@ const App = () => {
                 gap-4 m-5 p-2 rounded-md"
             >
                 <Button className="bg-indigo-700 hover:bg-indigo-800 mx-auto my-3 w-auto" onClick={openModal}>Add new Product</Button>
-
                 {renderProductList}
             </div>
             <CustomModal isOpen={isOpen} closeModal={closeModal} title="Add new Product">
 
                 <form className="space-y-3" onSubmit={submitHandler}>
                     {renderFormInputList}
+                    <Select selected={selectedCategory} setSelected={setSelectedCategory} />
                     <div className="flex flex-wrap items-center gap-1 my-2">
                         {renderProductColors}
                     </div>
@@ -139,6 +148,7 @@ const App = () => {
                                 <span key={color} className="p-1 mr-1 mb-1 text-xs rounded-md text-white"
                                       style={{backgroundColor: color}}>{color}</span>
                             ))}
+                        <ErrorMessage message={errorMessage.colors}/>
                     </div>
                     <div className="flex items-center gap-2">
                         <Button className="bg-indigo-700 hover:bg-indigo-800">Submit</Button>

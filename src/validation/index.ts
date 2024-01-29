@@ -5,13 +5,14 @@
 * @returns {object} - Object with errors
 */
 
-export const productValidation = (product: {title: string, description: string, imageURL: string, price: string}) => {
+export const productValidation = (product: {title: string, description: string, imageURL: string, price: string, colors: string[]}) => {
     // Return an object with the validation rules
-    const errors: { title: string, description: string, imageURL: string, price: string} = {
+    const errors: { title: string, description: string, imageURL: string, price: string, colors: string} = {
         title: "",
         description: "",
         imageURL: "",
         price: "",
+        colors: "",
     };
 
     const validURL = /^(ftp|http|https):\/\/[^ "]+$/.test(product.imageURL);
@@ -41,5 +42,8 @@ export const productValidation = (product: {title: string, description: string, 
         errors.price = "Price is invalid";
     }
 
+    if (product.colors.length < 1) {
+        errors.colors = "Please select at least one color";
+    }
     return errors;
 }
