@@ -28,7 +28,7 @@ const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductT
     }
     return (
         <div className="border rounded-md p-2 flex flex-col max-w-sm md:max-w-lg mx-auto md:mx-0">
-            <Image imageURL={imageURL} alt={title}/>
+            <Image imageURL={imageURL} alt={title} className="h-full"/>
             <h3>{title}</h3>
             <p>{textSlicer(description)}</p>
             <div className="flex gap-2 my-2">

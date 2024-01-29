@@ -205,17 +205,16 @@ const App = () => {
     }
     return (
         <main className="container">
-            <div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
-                gap-4 m-5 p-2 rounded-md"
-            >
-                <Button className="bg-indigo-700 hover:bg-indigo-800 mx-auto my-3 w-auto" onClick={openModal}>Add new
-                    Product</Button>
+            <div className="flex justify-center">
+                <Button className="bg-indigo-700 hover:bg-indigo-800 my-3 mx-auto max-w-fit" onClick={openModal}>
+                    Add new Product
+                </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 m-5 p-2 rounded-md">
                 {renderProductList}
             </div>
             {/*Add new Product Modal*/}
             <CustomModal isOpen={isOpen} closeModal={closeModal} title="Add new Product">
-
                 <form className="space-y-3" onSubmit={submitHandler}>
                     {renderFormInputList}
                     <Select selected={selectedCategory} setSelected={setSelectedCategory}/>
@@ -235,22 +234,17 @@ const App = () => {
                         <Button className="bg-gray-400 hover:bg-gray-500" onClick={onCancel}>Cancel</Button>
                     </div>
                 </form>
-
             </CustomModal>
 
             <CustomModal isOpen={isOpenEditModal} closeModal={closeEditModal} title={`Edit ${productToEdit.title}`}>
-
                 <form className="space-y-3" onSubmit={submitEditHandler}>
                     {renderProductEditWithErrorMsg('title', 'Product Title', 'title')}
                     {renderProductEditWithErrorMsg('description', 'Product Description', 'description')}
                     {renderProductEditWithErrorMsg('imageURL', 'Product Image URL', 'imageURL')}
                     {renderProductEditWithErrorMsg('price', 'Product price', 'price')}
-
-
                     <Select selected={productToEdit.category}
                             setSelected={value => setProductToEdit({...productToEdit, category: value})}
                     />
-
                     <div className="flex flex-wrap items-center gap-1 my-2">
                         {renderProductColors}
                     </div>
@@ -267,7 +261,6 @@ const App = () => {
                         <Button className="bg-gray-400 hover:bg-gray-500" onClick={onCancel}>Cancel</Button>
                     </div>
                 </form>
-
             </CustomModal>
         </main>
     );
