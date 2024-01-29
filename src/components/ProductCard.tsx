@@ -10,9 +10,10 @@ interface IProps {
     openEditModal: () => void;
     idx: number;
     setProductToEditIdx: (idx: number) => void;
+    openConfirmModal: () => void;
 }
 
-const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx}: IProps) => {
+const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx, openConfirmModal}: IProps) => {
     const {title, price, description, imageURL, colors, category} = product;
 
     /*render*/
@@ -20,11 +21,17 @@ const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductT
         <CircleColor key={color} color={color}/>
     );
 
+
     /*Handler*/
     const onEdit = () => {
         setProductToEdit(product);
         openEditModal();
         setProductToEditIdx(idx);
+    }
+
+    const onRemove = () => {
+        setProductToEdit(product);
+        openConfirmModal();
     }
     return (
         <div className="border rounded-md p-2 flex flex-col max-w-sm md:max-w-lg mx-auto md:mx-0">
@@ -38,11 +45,16 @@ const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductT
                 <span className="text-2xl text-indigo-600">
                     ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </span>
-                <div className="flex justify-center items-center gap-1"><span className="text-sm font-light">{category.name}</span><Image imageURL={category.imageURL} alt={category.name} className="w-10 h-10 rounded-full object-cover"/></div>
+                <div className="flex justify-center items-center gap-1">
+                    <span className="text-sm font-light">{category.name}</span>
+                    <Image imageURL={category.imageURL} alt={category.name}
+                           className="w-10 h-10 rounded-full object-cover"
+                    />
+                </div>
             </div>
             <div className="flex gap-2 justify-between mt-2">
                 <Button className="bg-indigo-700" onClick={onEdit}>Edit</Button>
-                <Button className="bg-red-700">Remove</Button>
+                <Button className="bg-red-700" onClick={onRemove}>Remove</Button>
             </div>
         </div>
     )

@@ -43,6 +43,7 @@ const App = () => {
     const [selectedCategory, setSelectedCategory] = useState(categoriesList[0]);
     const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProductObj);
     const [productToEditIdx, setProductToEditIdx] = useState<number>(0);
+    const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
 
     /*Handler*/
     const closeModal = () => {
@@ -58,6 +59,13 @@ const App = () => {
 
     const openEditModal = () => {
         setIsOpenEditModal(true)
+    }
+    const closeConfirmModal = () => {
+        setIsOpenConfirmModal(false)
+    }
+
+    const openConfirmModal = () => {
+        setIsOpenConfirmModal(true)
     }
 
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -152,6 +160,12 @@ const App = () => {
         closeEditModal();
 
     }
+
+    const removeProductHandler = () => {
+        const updatedProducts = products.filter(product => product.id !== productToEdit.id);
+        setProducts(updatedProducts);
+        closeConfirmModal();
+    }
     /*Render*/
     const renderProductList = products.map((product, idx) =>
         <ProductCard key={product.id}
@@ -160,6 +174,7 @@ const App = () => {
                      openEditModal={openEditModal}
                      idx={idx}
                      setProductToEditIdx={setProductToEditIdx}
+                    openConfirmModal={openConfirmModal}
         />
     );
 
@@ -206,7 +221,7 @@ const App = () => {
     return (
         <main className="container">
             <div className="flex justify-center">
-                <Button className="bg-indigo-700 hover:bg-indigo-800 my-3 mx-auto max-w-fit" onClick={openModal}>
+                <Button className="bg-indigo-700 hover:bg-indigo-800 my-3 mx-auto" width="w-fit" onClick={openModal}>
                     Add new Product
                 </Button>
             </div>
@@ -262,6 +277,19 @@ const App = () => {
                     </div>
                 </form>
             </CustomModal>
+
+            <CustomModal isOpen={isOpenConfirmModal}
+                         closeModal={closeConfirmModal}
+                         title="Are you sure you want to delete this Product?"
+                         description="This action cannot be undone. This will permanently delete this Product.">
+                <div className="flex items-center space-x-3">
+                    <Button className="bg-red-400 hover:bg-red-600" onClick={removeProductHandler}>Yes, Delete Product</Button>
+                    <Button className="bg-gray-500 hover:bg-gray-600 text-white" onClick={closeConfirmModal}>
+                        Cancel
+                    </Button>
+                </div>
+            </CustomModal>
+
         </main>
     );
 }

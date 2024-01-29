@@ -5,10 +5,11 @@ interface IProps {
     isOpen: boolean;
     closeModal: () => void;
     title?: string;
+    description?: string;
     children: ReactNode;
 }
 
-const CustomModal = ({isOpen, closeModal, title, children}: IProps) => {
+const CustomModal = ({isOpen, closeModal, title, description, children}: IProps) => {
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -40,12 +41,12 @@ const CustomModal = ({isOpen, closeModal, title, children}: IProps) => {
                                 <Dialog.Panel
                                     className="w-full max-w-md transform overflow-hidden rounded-xl bg-white
                                     p-6 text-left align-middle shadow-xl transition-all">
-                                    {
-                                        title &&
-                                        <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                                            {title}
-                                        </Dialog.Title>
+                                    {title && <Dialog.Title as="h3"
+                                                            className="text-lg font-medium leading-6 text-gray-900">
+                                                {title}
+                                            </Dialog.Title>
                                     }
+                                    {description && <p className="text-sm text-gray-500">{description}</p>}
                                     <div className="mt-4">
                                         {children}
                                     </div>
