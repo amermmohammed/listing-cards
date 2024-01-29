@@ -35,8 +35,10 @@ const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductT
                 {renderProductColors}
             </div>
             <div className="flex gap2 justify-between my-2 items-center font-bold">
-                <span className="text-2xl text-indigo-600">{price}</span>
-                <Image imageURL={category.imageURL} alt={category.name} className="w-10 h-10 rounded-full object-cover"/>
+                <span className="text-2xl text-indigo-600">
+                    ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </span>
+                <div className="flex justify-center items-center gap-1"><span className="text-sm font-light">{category.name}</span><Image imageURL={category.imageURL} alt={category.name} className="w-10 h-10 rounded-full object-cover"/></div>
             </div>
             <div className="flex gap-2 justify-between mt-2">
                 <Button className="bg-indigo-700" onClick={onEdit}>Edit</Button>
