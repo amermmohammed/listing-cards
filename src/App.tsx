@@ -94,6 +94,7 @@ const App = () => {
 
     const onCancel = () => {
         setProduct(defaultProductObj)
+        closeModal();
         closeEditModal();
     }
     const submitHandler = (event: FormEvent<HTMLFormElement>) => {
@@ -134,7 +135,7 @@ const App = () => {
             description,
             price,
             imageURL,
-            colors: [...tempColors],
+            colors: [...tempColors.concat(productToEdit.colors)],
         });
 
         const hasErrorMessage =
@@ -191,12 +192,13 @@ const App = () => {
 
     const renderProductColors = colorsList.map(color =>
         <CircleColor key={color} color={color} onClick={() => {
-            if (tempColors.includes(color) || productToEdit.colors.includes(color)) {
-                setTempColors((prev) => prev.filter(item => item !== color));
-                setProductToEdit({
-                    ...productToEdit,
-                    colors: productToEdit.colors.filter(item => item !== color)
-                })
+            if (tempColors.includes(color) || productToEdit.colors?.includes(color)) {
+                setTempColors((prev) => prev.filter(item => item !== color))
+                setProductToEdit((prev) => ({...prev, colors: prev.colors.filter((item) => item !== color)}));
+                return;
+            }
+            if (productToEdit.colors.includes(color)) {
+                setTempColors((prev) => prev.filter(item => item !== color))
                 return;
             }
             setTempColors((prev) => [...prev, color])
@@ -283,7 +285,8 @@ const App = () => {
             <CustomModal isOpen={isOpenConfirmModal}
                          closeModal={closeConfirmModal}
                          title="Are you sure you want to delete this Product?"
-                         description="This action cannot be undone. This will permanently delete this Product.">
+                         description="This action cannot be undone. This will permanently delete this Product."
+            >
                 <div className="flex items-center space-x-3">
                     <Button className="bg-red-400 hover:bg-red-600" onClick={removeProductHandler}>Yes, Delete Product</Button>
                     <Button className="bg-gray-500 hover:bg-gray-600 text-white" onClick={closeConfirmModal}>
