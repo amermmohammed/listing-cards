@@ -11,6 +11,7 @@ import CircleColor from "./components/ui/CircleColor.tsx"
 import { v4 as uuid } from "uuid";
 import Select from "./components/ui/Select.tsx";
 import { ProductNameTypes } from "./types";
+import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
     const defaultProductObj = {
@@ -93,7 +94,7 @@ const App = () => {
 
     const onCancel = () => {
         setProduct(defaultProductObj)
-        closeModal()
+        closeEditModal();
     }
     const submitHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -123,7 +124,7 @@ const App = () => {
         setProduct(defaultProductObj);
         setTempColors([]);
         closeModal();
-
+        toast.success("Product added successfully");
     }
     const submitEditHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -133,7 +134,7 @@ const App = () => {
             description,
             price,
             imageURL,
-            colors: [""],
+            colors: [...tempColors],
         });
 
         const hasErrorMessage =
@@ -158,13 +159,14 @@ const App = () => {
         setProductToEdit(defaultProductObj);
         setTempColors([]);
         closeEditModal();
-
+        toast.success("Product edited successfully");
     }
 
     const removeProductHandler = () => {
         const updatedProducts = products.filter(product => product.id !== productToEdit.id);
         setProducts(updatedProducts);
         closeConfirmModal();
+        toast.success("Product deleted successfully");
     }
     /*Render*/
     const renderProductList = products.map((product, idx) =>
@@ -189,12 +191,12 @@ const App = () => {
 
     const renderProductColors = colorsList.map(color =>
         <CircleColor key={color} color={color} onClick={() => {
-            if (tempColors.includes(color)) {
-                setTempColors((prev) => prev.filter(item => item !== color))
-                return;
-            }
-            if (productToEdit.colors.includes(color)) {
-                setTempColors((prev) => prev.filter(item => item !== color))
+            if (tempColors.includes(color) || productToEdit.colors.includes(color)) {
+                setTempColors((prev) => prev.filter(item => item !== color));
+                setProductToEdit({
+                    ...productToEdit,
+                    colors: productToEdit.colors.filter(item => item !== color)
+                })
                 return;
             }
             setTempColors((prev) => [...prev, color])
@@ -289,7 +291,7 @@ const App = () => {
                     </Button>
                 </div>
             </CustomModal>
-
+        <Toaster />
         </main>
     );
 }
