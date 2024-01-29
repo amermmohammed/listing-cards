@@ -246,9 +246,11 @@ const App = () => {
                     {renderProductEditWithErrorMsg('imageURL', 'Product Image URL', 'imageURL')}
                     {renderProductEditWithErrorMsg('price', 'Product price', 'price')}
 
-                    {/*
-                    <Select selected={selectedCategory} setSelected={setSelectedCategory}/>
-*/}
+
+                    <Select selected={productToEdit.category}
+                            setSelected={value => setProductToEdit({...productToEdit, category: value})}
+                    />
+
                     <div className="flex flex-wrap items-center gap-1 my-2">
                         {renderProductColors}
                     </div>
@@ -267,7 +269,6 @@ const App = () => {
                 </form>
 
             </CustomModal>
-
         </main>
     );
 }

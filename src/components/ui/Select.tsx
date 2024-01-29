@@ -5,7 +5,7 @@ import {categoriesList} from "../../data";
 import {ICategory} from "../../interfaces";
 
 interface IProps {
-    selected: ICategory;
+    selected: { name: string, imageURL: string };
     setSelected: (category: ICategory) => void;
 }
 
@@ -14,7 +14,7 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
 }
 
-const Select = ({ selected, setSelected }: IProps) => {
+const Select = ({selected, setSelected}: IProps) => {
 
     return (
         <Listbox value={selected} onChange={setSelected}>
@@ -64,8 +64,8 @@ const Select = ({ selected, setSelected }: IProps) => {
                                                     <span
                                                         className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
                                                     >
-                            {category.name}
-                          </span>
+                                                        {category.name}
+                                                      </span>
                                                 </div>
 
                                                 {selected ? (
@@ -75,8 +75,8 @@ const Select = ({ selected, setSelected }: IProps) => {
                                                             'absolute inset-y-0 right-0 flex items-center pr-4'
                                                         )}
                                                     >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true"/>
-                          </span>
+                                                    <CheckIcon className="h-5 w-5" aria-hidden="true"/>
+                                                  </span>
                                                 ) : null}
                                             </>
                                         )}
